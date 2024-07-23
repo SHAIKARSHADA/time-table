@@ -9,20 +9,27 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url    = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
 model Timetable {
-  id String @id @default(uuid())
-  isHoliday Boolean @default(false)
-  date String 
-  month String
-  dayOrder String
+  id        String    @id @default(uuid())
+  isHoliday Boolean   @default(false)
+  date      String
+  month     String
+  year      String
+  dayOrder  String
+  periods Periods @relation(fields: [dayOrder], references: [dayOrder])
 }
 
 model Periods {
- id String @id @default(uuid())
-  
+  id        String @id @default(uuid())
+  dayOrder  String @unique
+  session1  String
+  session2  String
+  session3  String
+  session4  String
+  timetableId Timetable[]
 }
