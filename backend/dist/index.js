@@ -16,23 +16,54 @@ const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const client_1 = require("@prisma/client");
 const extension_accelerate_1 = require("@prisma/extension-accelerate");
+const zod_1 = require("zod");
 const app = (0, express_1.default)();
 const port = 3000;
 app.use(body_parser_1.default.json());
-app.post("/timetable", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// only used to populate data in the database
+// app.post("/timetable",async (req: Request, res: Response) => {
+//   // const prisma = new PrismaClient().$extends(withAccelerate())
+//   const body = req.body;
+//   const populateData = await prisma.timetable.createMany({
+//     data:body,
+//   })
+//   res.send("done");
+// })
+// only used to populate data in the database
+// app.post("/periods",async (req: Request, res: Response) => {
+//   // const prisma = new PrismaClient().$extends(withAccelerate())
+//   const body = req.body;
+//   const populateData = await prisma.periods.createMany({
+//     data:body,
+//   })
+//   res.send("done");
+// })
+app.post("/api/v1/timetable", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const prisma = new client_1.PrismaClient().$extends((0, extension_accelerate_1.withAccelerate)());
     const body = req.body;
-    const populateData = yield prisma.timetable.createMany({
-        data: body,
+    const dataInputFromUser = zod_1.z.object({
+        date: zod_1.z.string().date()
     });
-    res.send("done");
-}));
-app.post("/periods", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const prisma = new client_1.PrismaClient().$extends((0, extension_accelerate_1.withAccelerate)());
-    const body = req.body;
-    const populateData = yield prisma.periods.createMany({
-        data: body,
+    const { success } = dataInputFromUser.safeParse(body);
+    if (!success) {
+        return res.status(400).send("not an valid date");
+    }
+    const findPeriod = yield prisma.timetable.findFirst({
+        where: {
+            date: body.date,
+        },
+        select: {
+            dayOrder: true,
+            periods: {
+                select: {
+                    session1: true,
+                    session2: true,
+                    session3: true,
+                    session4: true
+                }
+            }
+        }
     });
-    res.send("done");
+    res.send(findPeriod);
 }));
 app.listen(port);
