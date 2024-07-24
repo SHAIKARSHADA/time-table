@@ -38,32 +38,70 @@ app.use(body_parser_1.default.json());
 //   })
 //   res.send("done");
 // })
+app.get("/api/v1/allTimetable", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const prisma = new client_1.PrismaClient().$extends((0, extension_accelerate_1.withAccelerate)());
+    try {
+        const allPeriods = yield prisma.periods.findMany({
+            where: {
+                NOT: {
+                    dayOrder: "0",
+                    session1: "0",
+                    session2: "0",
+                    session3: "0",
+                    session4: "0",
+                },
+            },
+            select: {
+                id: false,
+                dayOrder: true,
+                session1: true,
+                session2: true,
+                session3: true,
+                session4: true,
+            }
+        });
+        res.send(allPeriods);
+    }
+    catch (e) {
+        console.log(e);
+        res.status(400).send("Error while fetching data from database");
+    }
+}));
 app.post("/api/v1/timetable", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const prisma = new client_1.PrismaClient().$extends((0, extension_accelerate_1.withAccelerate)());
     const body = req.body;
-    const dataInputFromUser = zod_1.z.object({
-        date: zod_1.z.string().date()
-    });
-    const { success } = dataInputFromUser.safeParse(body);
-    if (!success) {
-        return res.status(400).send("not an valid date");
-    }
-    const findPeriod = yield prisma.timetable.findFirst({
-        where: {
-            date: body.date,
-        },
-        select: {
-            dayOrder: true,
-            periods: {
-                select: {
-                    session1: true,
-                    session2: true,
-                    session3: true,
-                    session4: true
+    try {
+        const dataInputFromUser = zod_1.z.object({
+            date: zod_1.z.string().date()
+        });
+        const { success } = dataInputFromUser.safeParse(body);
+        if (!success) {
+            return res.status(400).send("not an valid date");
+        }
+        const findPeriod = yield prisma.timetable.findFirst({
+            where: {
+                date: body.date,
+            },
+            select: {
+                isHoliday: true,
+                date: true,
+                dayOrder: true,
+                periods: {
+                    select: {
+                        session1: true,
+                        session2: true,
+                        session3: true,
+                        session4: true
+                    }
                 }
             }
-        }
-    });
-    res.send(findPeriod);
+        });
+        res.send(findPeriod);
+    }
+    catch (e) {
+        res.status(400).json({
+            message: "Error while fetching data from database"
+        });
+    }
 }));
 app.listen(port);

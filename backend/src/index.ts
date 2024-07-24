@@ -40,12 +40,45 @@ app.use(bodyParser.json())
 
 // })
 
+app.get("/api/v1/allTimetable",async (req: Request, res: Response) => {
+
+  const prisma = new PrismaClient().$extends(withAccelerate());
+
+  try {
+    const allPeriods = await prisma.periods.findMany({
+      where: {
+        NOT: {
+          dayOrder: "0",
+          session1: "0",
+          session2: "0",
+          session3: "0",
+          session4: "0",
+        },
+      },
+      select: {
+        id: false,
+        dayOrder: true,
+        session1: true,
+        session2: true,
+        session3: true,
+        session4: true,
+      }
+    })
+    
+    res.send(allPeriods);
+  } catch(e) {
+    console.log(e);
+    res.status(400).send("Error while fetching data from database")
+  }
+})
+
 app.post("/api/v1/timetable",async (req: Request, res: Response) => {
   
   const prisma = new PrismaClient().$extends(withAccelerate());
    
     const body = req.body;
 
+   try {
     const dataInputFromUser = z.object({
       date: z.string().date() 
     })
@@ -61,6 +94,8 @@ app.post("/api/v1/timetable",async (req: Request, res: Response) => {
         date: body.date,
       },
       select: {
+        isHoliday: true,
+        date: true,
         dayOrder: true,
         periods: {
           select: {
@@ -74,8 +109,11 @@ app.post("/api/v1/timetable",async (req: Request, res: Response) => {
     });
 
   res.send(findPeriod);
-
-
+   } catch(e) {
+    res.status(400).json({
+      message: "Error while fetching data from database"
+    })
+   }
 
 })
 
