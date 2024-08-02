@@ -3,8 +3,12 @@ import bodyParser from "body-parser"
 import { PrismaClient,Prisma } from '@prisma/client'
 import { withAccelerate } from '@prisma/extension-accelerate'
 import {z} from "zod"
+import cors from 'cors' 
+
 
 const app: Express = express()
+
+app.use(cors())
 const port = 3000;
 
 
@@ -117,5 +121,7 @@ app.post("/api/v1/timetable",async (req: Request, res: Response) => {
 
 })
 
+
+export default app;
 
 app.listen(port);
