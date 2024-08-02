@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2016",
     "module": "commonjs",
-    "rootDir": "./", // Change this to the parent directory of both src and api
+    "rootDir": "./src", 
     "moduleResolution": "node",
     "typeRoots": ["./node_modules/@types", "./types"],
     "outDir": "./dist",
