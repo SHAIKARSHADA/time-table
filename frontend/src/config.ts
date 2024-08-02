@@ -1,0 +1,1 @@
+export const BACKEND_URL = "https://time-table-1.onrender.com";
