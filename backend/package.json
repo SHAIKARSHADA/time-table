@@ -1,11 +1,11 @@
 {
   "name": "time-table",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "tsc -b && node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "prisma generate && tsc",
+    "build": "prisma generate --no-engine && tsc",
     "start": "node dist/index.js"
   },
   "author": "shaik arshad",
