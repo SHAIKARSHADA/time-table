@@ -67,6 +67,7 @@ app.get("/api/v1/allTimetable", (req, res) => __awaiter(void 0, void 0, void 0, 
             periods: {
                 session1: period.session1,
                 session2: period.session2,
+                session5: "Break",
                 session3: period.session3,
                 session4: period.session4,
             },

@@ -69,7 +69,7 @@ app.get("/api/v1/allTimetable",async (req: Request, res: Response) => {
       }
     })
 
-    const periods = await allPeriods.map(period => ({
+    const periods = allPeriods.map(period => ({
       dayOrder: period.dayOrder,
       periods: {
         session1: period.session1,
