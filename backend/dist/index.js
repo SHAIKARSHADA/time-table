@@ -62,7 +62,7 @@ app.get("/api/v1/allTimetable", (req, res) => __awaiter(void 0, void 0, void 0, 
                 session4: true,
             }
         });
-        const periods = yield allPeriods.map(period => ({
+        const periods = allPeriods.map(period => ({
             dayOrder: period.dayOrder,
             periods: {
                 session1: period.session1,
