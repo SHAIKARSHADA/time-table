@@ -68,8 +68,18 @@ app.get("/api/v1/allTimetable",async (req: Request, res: Response) => {
         session4: true,
       }
     })
+
+    const periods = await allPeriods.map(period => ({
+      dayOrder: period.dayOrder,
+      periods: {
+        session1: period.session1,
+        session2: period.session2,
+        session3: period.session3,
+        session4: period.session4,
+      },
+    }))
     
-    res.send(allPeriods);
+    res.send(periods);
   } catch(e) {
     console.log(e);
     res.status(400).send("Error while fetching data from database")
