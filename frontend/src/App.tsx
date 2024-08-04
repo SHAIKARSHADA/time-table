@@ -1,6 +1,6 @@
 import "./App.css";
 import { Text } from "./components/Text";
-import { Timetable } from "./components/TimeTable";
+import { Timetable } from "./components/TimeTables"
 
 
 function App() {
