@@ -2,6 +2,7 @@ import "./App.css";
 import { Text } from "./components/Text";
 import { Timetable } from "./components/TimeTable";
 
+
 function App() {
   return (
     <>
