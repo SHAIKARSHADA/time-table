@@ -22,13 +22,7 @@ export const Text = () => {
     <>
     <p>
       {  (
-          <p className=" text-center text-2xl leading-9 md:text-5xl md:leading-tight pb-20 md:pb-5 pt-0 font-bold  z-20 bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500 py-8">{classNow === "No Periods" ? (
-            <>
-              Software Engineering Class
-              <br/>
-              Class No. 403
-            </>
-          ) : classNow+" Class" }<br/>
+          <p className=" text-center text-2xl leading-9 md:text-5xl md:leading-tight pb-20 md:pb-5 pt-0 font-bold  z-20 bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500 py-8">{classNow === "No Periods" ? "No Class Right Now" : classNow+" Class" }<br/>
           {classNoNow === "None" ? "" : (
             <>
               {"Class No. "+classNoNow}
