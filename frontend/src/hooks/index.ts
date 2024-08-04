@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { BACKEND_URL } from '../config';
-import { backIn } from 'framer-motion';
+
 
 export interface timetable {
   "dayOrder": string,

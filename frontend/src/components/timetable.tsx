@@ -35,7 +35,7 @@ export const Timetable = () => {
             <td className="border border-gray-600 font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b from-pink-500 to-pink-300 ">Day {timetable.dayOrder}</td>
             {Object.entries(timetable.periods).map(([sessionKey,sessionValue]) => {
               const transformedValue = sessionValue.replace(/-/g," ");
-              return (<td className={`border border-gray-600 font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b  ${timetable.dayOrder === dayOrder ? 
+              return (<td key={sessionKey} className={`border border-gray-600 font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b  ${timetable.dayOrder === dayOrder ? 
       (periodsNow === sessionValue ? "from-green-500 to-green-200" : "from-orange-500 to-orange-200") 
       : "from-neutral-200 to-neutral-500"} py-1 px-2 `}>{transformedValue}</td>)
             } )}
