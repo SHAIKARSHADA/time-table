@@ -111,7 +111,8 @@ export const useTimeTableNow = () => {
   const timeOptions: Intl.DateTimeFormatOptions = {
     timeZone: 'Asia/Kolkata',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
+    hour12: false,
   }
   const time = new Date().toLocaleString('en-IN', timeOptions ).split(':').join('').slice(0,5);
   
